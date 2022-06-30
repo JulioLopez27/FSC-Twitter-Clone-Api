@@ -10,6 +10,7 @@ const prisma = new PrismaClient()
 
 // tweet list from user
 router.get('/tweets', async ctx => {
+
     const [, token] = ctx.request.headers?.authorization?.split(' ') || []
     if (!token) {
         ctx.status = 401
@@ -17,10 +18,20 @@ router.get('/tweets', async ctx => {
     }
     try {
         jwt.verify(token, process.env.JWT_SECRET)
-        const tweets = await prisma.Tweet.findMany()
+        const tweets = await prisma.Tweet.findMany({
+            //  relaciona el user al tweet al traerme
+            // su listado(Join)
+            include: {
+                user: true
+            }
+        })
         ctx.body = tweets
-    } catch (error) {
-        ctx.status = 401
+    } catch (error) {        
+        if (typeof error === 'JsonWebTokenError') {
+            ctx.status = 401
+            return
+        }
+        ctx.status = 500
         return
     }
 })
