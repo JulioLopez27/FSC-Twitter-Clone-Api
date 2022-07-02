@@ -10,6 +10,7 @@
   },
   "license": "ISC",
   "scripts": {
+    "build":"",
     "dev": "node server.js",
     "prisma": "prisma studio",
     "push": "prisma db push"
