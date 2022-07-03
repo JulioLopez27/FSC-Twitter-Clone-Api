@@ -1,0 +1,13 @@
+{
+    "functions": {
+        "api/index.js": {
+            "runtime": "@vercel/node@2.3.3"
+        }
+    },
+    "rewitres": [
+        {
+            "source": "/(.*)",
+            "destination": "/api"
+        }
+    ]
+}
