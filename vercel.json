@@ -4,7 +4,7 @@
             "runtime": "@vercel/node@2.3.3"
         }
     },
-    "rewitres": [
+    "rewritres": [
         {
             "source": "/(.*)",
             "destination": "/api"
