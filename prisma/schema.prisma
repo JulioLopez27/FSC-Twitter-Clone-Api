@@ -14,7 +14,7 @@ datasource db {
 
 model User {
   id         String   @id @default(cuid())
-  avatar     String   @default("/src/imgs/avatar.png")
+  avatar     String   @default("avatar")
   name       String
   email      String   @unique
   username   String   @unique
