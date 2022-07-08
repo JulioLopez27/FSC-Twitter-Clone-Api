@@ -13,20 +13,52 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(cuid())
-  name     String
-  email    String  @unique
-  username String  @unique
-  password String
-  tweets   Tweet[]
+  id         String   @id @default(cuid())
+  avatar     String   @default("avatar")
+  name       String
+  email      String   @unique
+  username   String   @unique
+  password   String
+  created_at DateTime @default(now())
+
+  tweets    Tweet[]
+  likes     Like[]
+  bookmarks Bookmark[]
 }
 
 model Tweet {
-  id     String @id @default(cuid())
-  userId String
-  text   String
+  id         String   @id @default(cuid())
+  userId     String
+  text       String
+  created_at DateTime @default(now())
 
-
-  user User @relation(fields: [userId], references: [id])
+  user     User       @relation(fields: [userId], references: [id])
+  likes    Like[]
+  bookmark Bookmark[]
   @@index([userId])
+}
+
+model Like {
+  userId  String
+  tweetId String
+
+  user  User  @relation(fields: [userId], references: [id])
+  tweet Tweet @relation(fields: [tweetId], references: [id])
+
+  @@id([userId, tweetId])
+  @@index([userId])
+  @@index([tweetId])
+}
+
+model Bookmark {
+  userId     String
+  tweetId    String
+  created_at DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  tweet Tweet @relation(fields: [tweetId], references: [id])
+
+  @@id([userId, tweetId])
+  @@index([userId])
+  @@index([tweetId])
 }
